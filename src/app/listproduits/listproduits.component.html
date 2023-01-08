@@ -1,0 +1,112 @@
+<h1>Listes de produits </h1>
+
+<button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#ajouter"  >ajouter un produit</button>
+<br>
+<br>
+
+<table class="table table-striped">
+  <tbody >
+  <th>#</th>
+  <th>title</th>
+  <th>price</th>
+  <th>quantity</th>
+  <th>like</th>
+  <tr  *ngFor="let x of liste;index as i">
+    <td>{{i+1}}</td>
+    <td>{{x.title}}</td>
+    <td>{{x.price}}</td>
+    <td>{{x.quantity}}</td>
+    <td>{{x.like}}</td>
+
+    <td><button class="btn btn-warning" (click)="addlike(x.id)">Like</button></td>
+    <td><button class="btn btn-success" [disabled]="x.quantity==0" (click)="buy(x.id)">buy</button></td>
+    <td><button class="btn btn-danger" onclick="history.go(0)"  (click)="delete(x.id)" >  del </button></td>
+    <td><button class="btn btn-primary me-1 mb-1"  data-bs-toggle="modal" data-bs-target="#test" (click)="getid(x.id)" >update</button></td>
+
+  </tr>
+</tbody>
+</table>
+<!-- modal ajouterr  -->
+<div class="modal" tabindex="-1"  id="ajouter">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ajouter produits
+          <div class="alert alert-danger" *ngIf="addUserForm.get('title')?.touched && addUserForm.get('title')?.hasError('required') && addUserForm.get('title')?.hasError('pattern')"> this title required</div>
+
+          <div class="alert alert-danger" *ngIf="addUserForm.get('price')?.touched && addUserForm.get('price')?.hasError('required')"> intervalle dans [0-9]</div>
+          <div class="alert alert-danger" *ngIf="addUserForm.get('quantity')?.touched && addUserForm.get('quantity')?.hasError('required')"> quantity dans [0-9]</div>
+          <div style="color: green;font-size:large;" >{{msg}}</div>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+<form [formGroup]="addUserForm"  >
+  <label >title</label>
+  <input type="text" class="form-control"formControlName="title"   required>
+
+  <input type="hidden"    class="form-control" formControlName="id">
+  <label >price</label>
+  <input type="number" class="form-control" formControlName="price"  required>
+  <label >quantity</label>
+  <input type="number" class="form-control" formControlName="quantity"  required>
+  <label ></label>
+  <input type="hidden"    class="form-control" formControlName="like" >
+
+  <div class="modal-footer">
+    <button type="button" onClick="window.location.reload();" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="submit"    (click)="save()" class="btn btn-primary">save</button>
+  </div>
+
+</form>
+
+</div>
+</div>
+  </div>
+</div>
+
+
+<!-- modal update -->
+<div *ngFor="let x of liste">
+<div class="modal" tabindex="-1"  id="test">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modifier {{person.title}}
+          <div class="alert alert-danger" *ngIf="addUserForm.get('title')?.touched && addUserForm.get('title')?.hasError('required')"> this title required</div>
+          <div class="alert alert-danger" *ngIf="addUserForm.get('title')?.touched && addUserForm.get('title')?.hasError('pattern')"> intervalle dans [a-zA-z]</div>
+          <div class="alert alert-danger" *ngIf="addUserForm.get('price')?.touched && addUserForm.get('price')?.hasError('required')"> intervalle dans [0-9]</div>
+          <div class="alert alert-danger" *ngIf="addUserForm.get('quantity')?.touched && addUserForm.get('quantity')?.hasError('required')"> quantity dans [0-9]</div>
+          <div style="color: green;font-size:large;" >{{msg}}</div>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <form [formGroup]="addUserForm"   >
+
+          <input type="hidden"   id="med" class="form-control" formControlName="id" required [(ngModel)]="person.id">
+          <label >title</label>
+          <input type="text" class="form-control" id="med" formControlName="title"required  [(ngModel)]="person.title">
+          <label >price</label>
+          <input type="number" class="form-control" id="med" formControlName="price" required  [(ngModel)]="person.price">
+          <label >quantity</label>
+          <input type="number" class="form-control" id="med" formControlName="quantity" required   [(ngModel)]="person.quantity" >
+
+          <input type="hidden"   class="form-control" id="med" formControlName="like" required   [(ngModel)]="person.like">
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  class="btn btn-secondary" onClick="window.location.reload();" data-bs-dismiss="modal">Close</button>
+        <button type="submit"  class="btn btn-primary"  [disabled]="addUserForm.invalid" (click)="update(person.id,person)">save</button>
+
+
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
