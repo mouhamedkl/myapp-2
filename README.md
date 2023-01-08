@@ -1,6 +1,9 @@
 
 # Myapp2
-
+## crud with angular 
+get(),post(),patch(),delete()
+## for runnig this crud 
+Run `json-server --watch dh.json` and `ng serve --open`
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.7.
 
 ## Development server
